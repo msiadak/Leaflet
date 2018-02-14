@@ -71,6 +71,16 @@ describe('Tooltip', function () {
 		expect(spy.calledOnce).to.be(true);
 	});
 
+	it("can be made interactive when opened directly on the map", function () {
+		var tooltip = L.tooltip({permanent: true, interactive: true});
+		var spy = sinon.spy();
+		tooltip.on('click', spy);
+
+		map.openTooltip(tooltip, center);
+		happen.click(tooltip._container);
+		expect(spy.calledOnce).to.be(true);
+	});
+
 	it("can be forced on left direction", function () {
 		var layer = new L.Marker(center).addTo(map);
 		var spy = sinon.spy();

@@ -71,6 +71,13 @@ export var Tooltip = DivOverlay.extend({
 		DivOverlay.prototype.onAdd.call(this, map);
 		this.setOpacity(this.options.opacity);
 
+		// Tooltip container may not be defined if not permanent and never
+		// opened.
+		if (this._tooltip.options.interactive && this._tooltip._container) {
+			DomUtil.addClass(this._container, 'leaflet-clickable');
+			this.addInteractiveTarget(this._container);
+		}
+
 		// @namespace Map
 		// @section Tooltip events
 		// @event tooltipopen: TooltipEvent
@@ -338,13 +345,6 @@ Layer.include({
 
 			// open the tooltip on the map
 			this._map.openTooltip(this._tooltip, latlng);
-
-			// Tooltip container may not be defined if not permanent and never
-			// opened.
-			if (this._tooltip.options.interactive && this._tooltip._container) {
-				DomUtil.addClass(this._tooltip._container, 'leaflet-clickable');
-				this.addInteractiveTarget(this._tooltip._container);
-			}
 		}
 
 		return this;
